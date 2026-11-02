@@ -660,6 +660,12 @@ function initFirebaseFeatures(db, auth){
   // Track total visits
   const visitsRef = db.ref('stats/visits');
   visitsRef.transaction(v => (v||0) + 1);
+  // Tampilkan total kunjungan
+  visitsRef.on('value', snap => {
+    const n = snap.val() || 0;
+    const el = document.getElementById('visits-total');
+    if(el) el.textContent = n.toLocaleString('id-ID');
+  });
 
   // ── LIKES ──
   const likeRef = db.ref('stats/likes');
