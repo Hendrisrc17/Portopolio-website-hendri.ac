@@ -1126,7 +1126,10 @@ function escHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&l
 ══════════════════════════════════ */
 (function(){
   // Key Groq ada di .env (server.js), bukan di browser.
-  const CHAT_API = 'http://localhost:3000/api/chat';
+  // Dibuka dari file lokal (file://) → panggil fungsi di Vercel. Di Vercel → pakai path relatif.
+  const CHAT_API = location.protocol === 'file:'
+    ? 'https://portofolio-website-hendri.vercel.app/api/chat'
+    : '/api/chat';
 
 
   // ── AI BACA SELURUH ISI HTML SECARA LANGSUNG ──
