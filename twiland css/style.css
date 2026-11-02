@@ -172,6 +172,10 @@ body::before{content:'';position:fixed;inset:0;z-index:2;pointer-events:none;opa
 #vis-badge{position:fixed;bottom:32px;left:24px;z-index:600;background:rgba(6,6,14,.9);border:1px solid rgba(255,255,255,.08);border-radius:100px;padding:7px 14px;display:flex;align-items:center;gap:8px;backdrop-filter:blur(16px);font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.08em;color:rgba(237,237,245,.45);user-select:none}
 #vis-badge .vdot{width:5px;height:5px;border-radius:50%;background:#e8ff47;flex-shrink:0;animation:blink 1.6s infinite}
 @media(max-width:767px){#vis-badge{display:none}}
+#visits-badge{position:fixed;bottom:76px;left:24px;z-index:600;background:rgba(6,6,14,.9);border:1px solid rgba(255,255,255,.08);border-radius:100px;padding:7px 14px;display:flex;align-items:center;gap:8px;backdrop-filter:blur(16px);font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.08em;color:rgba(237,237,245,.45);user-select:none}
+#visits-badge span:first-child{color:#e8ff47}
+#visits-badge #visits-total{color:#e8ff47}
+@media(max-width:767px){#visits-badge{display:none}}
 /* LIKE FAB */
 #like-fab{position:fixed;right:24px;bottom:32px;z-index:600;width:52px;height:52px;border-radius:50%;background:rgba(6,6,14,.9);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(16px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;cursor:pointer;transition:all .25s cubic-bezier(.16,1,.3,1);box-shadow:0 4px 20px rgba(0,0,0,.5)}
 #like-fab:hover{border-color:rgba(232,255,71,.3);transform:scale(1.08)}
