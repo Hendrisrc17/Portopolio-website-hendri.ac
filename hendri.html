@@ -1,0 +1,799 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Portfolio · CS Developer</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Familjen+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script>
+tailwind.config={theme:{extend:{fontFamily:{display:['Familjen Grotesk','sans-serif'],body:['Plus Jakarta Sans','sans-serif'],mono:['JetBrains Mono','monospace']},colors:{ink:'#05050a',em:'#e8ff47',em2:'#c8e030',muted:'#52526a'}}}}
+</script>
+<link rel="stylesheet" href="twiland css/style.css"/>
+</head>
+<body style="background:#05050a">
+
+<!-- PAGE LOADER -->
+<div id="loader">
+  <div class="llogo">HEN·IO</div>
+  <div class="lbar-wrap"><div class="lbar" id="lbar"></div></div>
+  <div class="lpct" id="lpct">0%</div>
+</div>
+
+<!-- SCROLL PROGRESS BAR -->
+<div id="progress"></div>
+
+<!-- TOAST NOTIFICATION -->
+<div id="toast">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e8ff47" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+  <span id="toast-msg">Pesan terkirim! 🚀</span>
+</div>
+
+<!-- SECTION DOTS -->
+<nav id="sdots">
+  <button class="sdot on" data-s="home"     title="Home"></button>
+  <button class="sdot"    data-s="about"    title="About"></button>
+  <button class="sdot"    data-s="projects" title="Work"></button>
+  <button class="sdot"    data-s="skills"   title="Skills"></button>
+  <button class="sdot"    data-s="contact"  title="Contact"></button>
+</nav>
+
+<div id="cur"></div>
+<div id="cur2"></div>
+<div id="spot"></div>
+<canvas id="bg-canvas"></canvas>
+<div id="proj-preview"></div>
+
+<!-- ══ NAV PILL (desktop) ══ -->
+<nav id="navp" class="z">
+  <span class="logo">HEN·IO</span>
+  <a href="#home"     class="nl on">Home</a>
+  <a href="#about"    class="nl">About</a>
+  <a href="#sertifikat" class="nl">Sertifikat</a>
+  <a href="#projects" class="nl">Work</a>
+  <a href="#skills"   class="nl">Skills</a>
+  <a href="#contact"  class="nl">Contact</a>
+  <a href="#contact"  class="hire">Hire Me</a>
+</nav>
+
+<!-- ══ MOBILE BOTTOM DOCK ══ -->
+<nav id="dock" class="z">
+  <a href="#home"     class="db on" data-s="home">
+    <svg viewBox="0 0 24 24"><path d="M3 12L12 3l9 9M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9"/></svg>
+    <span>Home</span>
+  </a>
+  <a href="#about"    class="db" data-s="about">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.866 3.134-7 7-7s7 3.134 7 7"/></svg>
+    <span>About</span>
+  </a>
+  <a href="#sertifikat" class="db" data-s="sertifikat">
+    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+    <span>Cert</span>
+  </a>
+  <a href="#projects" class="db" data-s="projects">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg>
+    <span>Work</span>
+  </a>
+  <a href="#skills"   class="db" data-s="skills">
+    <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    <span>Skills</span>
+  </a>
+  <a href="#contact"  class="db" data-s="contact">
+    <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    <span>Contact</span>
+  </a>
+</nav>
+
+<!-- ══════ HERO ══════
+  Mobile: pt-16 pb-12  → konten mulai 64px dari atas (cukup untuk tidak nabrak status bar)
+  Tablet: pt-20 pb-16
+  Desktop: pt-24 pb-20
+  justify-center → teks di tengah vertikal, tidak ada ruang kosong berlebih
+-->
+<section id="home" class="z flex flex-col justify-center px-5 sm:px-8 md:px-14 lg:px-20 xl:px-28" style="min-height:100svh;padding-top:clamp(5rem,12vw,6rem);padding-bottom:clamp(5rem,10vw,5rem)">
+  <div class="max-w-screen-xl mx-auto w-full">
+
+    <h1 style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;line-height:.93;letter-spacing:-.015em;font-size:clamp(2.8rem,9.5vw,9rem)" class="mb-8 sm:mb-10">
+      <span class="clip"><span class="ci" style="--d:.06s">Code.</span></span>
+      <span class="clip"><span class="ci" style="--d:.18s;color:#e8ff47">Intelligence.</span></span>
+      <span class="clip"><span class="ci" style="--d:.3s">Ship.</span></span>
+    </h1>
+
+    <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-7 lg:gap-12 rv" style="transition-delay:.48s">
+      <div class="max-w-[400px]">
+        <p class="text-white/42 text-[.93rem] sm:text-[.96rem] leading-[1.78]">Informatics student and TKJ graduate. Building <span class="text-white/68">AI systems that ship</span>, from models in PyTorch to APIs and web apps, with national-level wins to back it up.<span class="tcur"></span></p>
+        <div class="flex flex-wrap gap-3 mt-5 sm:mt-6">
+          <a href="#projects" class="btem rpl-host">View Work <span>→</span></a>
+          <a href="#contact"  class="btgh rpl-host">Get In Touch</a>
+        </div>
+      </div>
+      <!-- Stats -->
+      <div class="flex gap-7 sm:gap-10 md:gap-12">
+        <div>
+          <div style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:clamp(1.8rem,5vw,2.8rem);line-height:1;color:#ededf5" class="cnt" data-to="12">0</div>
+          <div class="font-mono text-[.54rem] tracking-widest text-muted uppercase mt-1.5">Projects</div>
+        </div>
+        <div>
+          <div style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:clamp(1.8rem,5vw,2.8rem);line-height:1;color:#ededf5" class="cnt" data-to="3">0</div>
+          <div class="font-mono text-[.54rem] tracking-widest text-muted uppercase mt-1.5">Years</div>
+        </div>
+        <div>
+          <div style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:clamp(1.8rem,5vw,2.8rem);line-height:1;color:#e8ff47" class="cnt" data-to="10">0</div>
+          <div class="font-mono text-[.54rem] tracking-widest text-muted uppercase mt-1.5">Technologies</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="vis-badge-mobile" class="inline-flex items-center gap-2 mt-6 rv" style="transition-delay:.7s;font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.08em;color:rgba(237,237,245,.38)"><span class="bl w-1.5 h-1.5 rounded-full bg-em flex-shrink-0"></span><span id="vis-count-mobile">0</span> online sekarang</div>
+    <div class="flex items-center gap-3 mt-10 sm:mt-12 rv" style="transition-delay:.78s;opacity:.26" id="shi">
+      <div class="scl"></div>
+      <span class="font-mono text-[.52rem] tracking-widest uppercase text-white/38">Scroll</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══ MARQUEE 1 ══ -->
+<div class="z overflow-hidden border-y border-white/[.04] py-3">
+  <div class="mqa flex whitespace-nowrap select-none">
+    <span style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.13em;color:rgba(237,237,245,.07);padding:0 1.8rem">MACHINE LEARNING</span><span style="color:rgba(232,255,71,.12);padding:0 .6rem">✦</span>
+    <span style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.13em;color:rgba(237,237,245,.07);padding:0 1.8rem">COMPUTER VISION</span><span style="color:rgba(232,255,71,.12);padding:0 .6rem">✦</span>
+    <span style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.13em;color:rgba(237,237,245,.07);padding:0 1.8rem">FULL STACK DEV</span><span style="color:rgba(232,255,71,.12);padding:0 .6rem">✦</span>
+    <span style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.13em;color:rgba(237,237,245,.07);padding:0 1.8rem">NEURAL NETWORKS</span><span style="color:rgba(232,255,71,.12);padding:0 .6rem">✦</span>
+    <span style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.13em;color:rgba(237,237,245,.07);padding:0 1.8rem">DATA SCIENCE</span><span style="color:rgba(232,255,71,.12);padding:0 .6rem">✦</span>
+    <span style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.13em;color:rgba(237,237,245,.07);padding:0 1.8rem">CLOUD ARCHITECT</span><span style="color:rgba(232,255,71,.12);padding:0 .6rem">✦</span>
+    <span style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.13em;color:rgba(237,237,245,.07);padding:0 1.8rem">MACHINE LEARNING</span><span style="color:rgba(232,255,71,.12);padding:0 .6rem">✦</span>
+    <span style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.13em;color:rgba(237,237,245,.07);padding:0 1.8rem">COMPUTER VISION</span><span style="color:rgba(232,255,71,.12);padding:0 .6rem">✦</span>
+    <span style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.13em;color:rgba(237,237,245,.07);padding:0 1.8rem">FULL STACK DEV</span><span style="color:rgba(232,255,71,.12);padding:0 .6rem">✦</span>
+    <span style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.13em;color:rgba(237,237,245,.07);padding:0 1.8rem">NEURAL NETWORKS</span><span style="color:rgba(232,255,71,.12);padding:0 .6rem">✦</span>
+    <span style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.13em;color:rgba(237,237,245,.07);padding:0 1.8rem">DATA SCIENCE</span><span style="color:rgba(232,255,71,.12);padding:0 .6rem">✦</span>
+    <span style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.13em;color:rgba(237,237,245,.07);padding:0 1.8rem">CLOUD ARCHITECT</span><span style="color:rgba(232,255,71,.12);padding:0 .6rem">✦</span>
+  </div>
+</div>
+
+<!-- ══════ ABOUT ══════ -->
+<section id="about" class="z py-20 sm:py-28 md:py-36 px-5 sm:px-8 md:px-14 lg:px-20 xl:px-28" style="background:#0a0a12">
+  <div class="max-w-screen-xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-stretch">
+
+      <!-- LEFT — Bio + Timeline -->
+      <div>
+        <div class="sl mb-7 rl">01 — About Me</div>
+        <h2 class="rl d1 mb-6" style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:clamp(1.9rem,5vw,3.6rem);line-height:1.08;letter-spacing:-.012em">
+          The human<br/>behind the<br/><span style="color:#e8ff47">code.</span>
+        </h2>
+
+        <!-- Bio paragraphs -->
+        <div class="space-y-3.5 rl d2">
+          <p class="text-white/50 leading-[1.85] text-[.93rem]">
+            Halo! Saya <span class="text-white font-medium">Hendri</span>, mahasiswa <span class="text-white font-medium">S1 Ilmu Komputer Universitas Muhammadiyah Bangka Belitung</span>. Perjalanan saya di dunia teknologi dimulai sejak SMK — meraih <span style="color:#e8ff47" class="font-medium">Juara Kelas dari kelas 10 hingga 12</span> di Jurusan Teknik Komputer Jaringan.
+          </p>
+          <p class="text-white/50 leading-[1.85] text-[.93rem]">
+            Di kampus, saya aktif berorganisasi sebagai <span class="text-white font-medium">Sekretaris HIMIK</span> (Himpunan Mahasiswa Ilmu Komputer) dan anggota <span class="text-white font-medium">RTIK</span> (Relawan Teknologi Informasi dan Komunikasi). Tidak hanya itu — saya juga aktif berkompetisi di berbagai lomba tingkat nasional.
+          </p>
+          <p class="text-white/50 leading-[1.85] text-[.93rem]">
+            Fokus studi saya di <span style="color:#e8ff47" class="font-medium">App Development, Web Development, dan Artificial Intelligence</span> — tiga bidang yang saya gabungkan untuk membangun solusi digital yang tidak hanya fungsional, tapi juga berdampak nyata.
+          </p>
+        </div>
+
+        <!-- Achievement timeline -->
+        <div class="mt-8 rl d3">
+          <div class="font-mono text-[.6rem] tracking-widest text-muted uppercase mb-4">— Pencapaian</div>
+          <div class="space-y-0">
+
+            <div class="flex gap-4 group">
+              <div class="flex flex-col items-center">
+                <div class="w-7 h-7 rounded-full border flex items-center justify-center flex-shrink-0 transition-all group-hover:border-em" style="border-color:rgba(232,255,71,.25);background:rgba(232,255,71,.06)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#e8ff47" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <div class="w-px flex-1 my-1" style="background:rgba(255,255,255,.06)"></div>
+              </div>
+              <div class="pb-5 pt-0.5 flex-1">
+                <div class="flex items-center gap-2 flex-wrap mb-1">
+                  <span style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:.88rem;color:#ededf5">Juara 3 — Hackathon INFEST 2026</span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:rgba(232,255,71,.6);background:rgba(232,255,71,.08);border:1px solid rgba(232,255,71,.15);padding:2px 8px;border-radius:100px">2026</span>
+                </div>
+                <p style="color:rgba(237,237,245,.38);font-size:.82rem;line-height:1.6;margin-bottom:10px">Polman Babel — mengembangkan aplikasi berbasis <span style="color:rgba(237,237,245,.65)">Artificial Intelligence</span> bersama tim. Kompetisi tingkat nasional.</p>
+                <div class="relative rounded-xl overflow-hidden" style="border:1px solid rgba(255,255,255,.07);background:rgba(10,10,18,.6)">
+                  <img src="berita/dambusverse infest.jpeg" alt="" style="width:100%;max-height:150px;object-fit:cover;object-position:top;filter:blur(8px);opacity:.6;display:block" onerror="this.style.display='none'"/>
+                  <div class="absolute inset-0 flex items-center justify-center">
+                    <a href="https://unmuhbabel.ac.id/keren-dambusverse-bawa-ilkom-unmuh-babel-juara-nasional/" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.06em;color:rgba(232,255,71,.7);background:rgba(232,255,71,.06);border:1px solid rgba(232,255,71,.18);padding:6px 14px;border-radius:100px;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;gap:6px" onmouseover="this.style.background='rgba(232,255,71,.12)';this.style.color='#e8ff47'" onmouseout="this.style.background='rgba(232,255,71,.06)';this.style.color='rgba(232,255,71,.7)'"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Lihat Berita Juara</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex gap-4 group">
+              <div class="flex flex-col items-center">
+                <div class="w-7 h-7 rounded-full border flex items-center justify-center flex-shrink-0 transition-all group-hover:border-em" style="border-color:rgba(232,255,71,.25);background:rgba(232,255,71,.06)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#e8ff47" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <div class="w-px flex-1 my-1" style="background:rgba(255,255,255,.06)"></div>
+              </div>
+              <div class="pb-5 pt-0.5 flex-1">
+                <div class="flex items-center gap-2 flex-wrap mb-1">
+                  <span style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:.88rem;color:#ededf5">⭐ Juara Umum I — SMK TKJ</span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:rgba(232,255,71,.6);background:rgba(232,255,71,.08);border:1px solid rgba(232,255,71,.15);padding:2px 8px;border-radius:100px">2021–2023</span>
+                </div>
+                <p style="color:rgba(237,237,245,.38);font-size:.82rem;line-height:1.6;margin-bottom:10px">Juara Umum I Jurusan <span style="color:rgba(237,237,245,.65)">Teknik Komputer &amp; Jaringan</span> (2021, 2022, 2022/2023) dan Juara 1 Kelas XII 2022/2023 di SMK Negeri 1 Payung.</p>
+                <button onclick="openCert('smk-juara-umum-1-2022-2023')" style="font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.06em;color:rgba(232,255,71,.7);background:rgba(232,255,71,.06);border:1px solid rgba(232,255,71,.18);padding:6px 14px;border-radius:100px;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;gap:6px" onmouseover="this.style.background='rgba(232,255,71,.12)';this.style.color='#e8ff47'" onmouseout="this.style.background='rgba(232,255,71,.06)';this.style.color='rgba(232,255,71,.7)'"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Lihat Sertifikat</button>
+              </div>
+            </div>
+            <div class="flex gap-4 group">
+              <div class="flex flex-col items-center">
+                <div class="w-7 h-7 rounded-full border flex items-center justify-center flex-shrink-0 transition-all group-hover:border-em" style="border-color:rgba(232,255,71,.25);background:rgba(232,255,71,.06)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#e8ff47" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <div class="w-px flex-1 my-1" style="background:rgba(255,255,255,.06)"></div>
+              </div>
+              <div class="pb-5 pt-0.5 flex-1">
+                <div class="flex items-center gap-2 flex-wrap mb-1">
+                  <span style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:.88rem;color:#ededf5">🚀 Lolos Pendanaan PKM — KC Karsa Cipta</span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:rgba(232,255,71,.6);background:rgba(232,255,71,.08);border:1px solid rgba(232,255,71,.15);padding:2px 8px;border-radius:100px">2026</span>
+                </div>
+                <p style="color:rgba(237,237,245,.38);font-size:.82rem;line-height:1.6;margin-bottom:10px">Rimbarest: Instrumen Cerdas Deteksi Audio dan Partikulat Berbasis <span style="color:rgba(237,237,245,.65)">Edge Intelligence</span> untuk Proteksi Ekosistem dan Ketahanan Sumber Daya Alam Bangka Belitung.</p>
+                <div class="relative rounded-xl overflow-hidden" style="border:1px solid rgba(255,255,255,.07);background:rgba(10,10,18,.6)">
+                  <img src="sertifikat/bukti-pkm-rimbarest.jpeg" alt="" style="width:100%;max-height:150px;object-fit:cover;object-position:top;filter:blur(8px);opacity:.6;display:block" onerror="this.style.display='none'"/>
+                  <div class="absolute inset-0 flex items-center justify-center">
+                    <a href="https://detikbabel.com/mahasiswa-unmuh-babel-kembangkan-rimbarest-teknologi-ai-untuk-deteksi-dini-kebakaran-hutan/?amp" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.06em;color:rgba(232,255,71,.7);background:rgba(232,255,71,.06);border:1px solid rgba(232,255,71,.18);padding:6px 14px;border-radius:100px;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;gap:6px" onmouseover="this.style.background='rgba(232,255,71,.12)';this.style.color='#e8ff47'" onmouseout="this.style.background='rgba(232,255,71,.06)';this.style.color='rgba(232,255,71,.7)'"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Lihat Berita PKM</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex gap-4 group">
+              <div class="flex flex-col items-center">
+                <div class="w-7 h-7 rounded-full border flex items-center justify-center flex-shrink-0 transition-all group-hover:border-em" style="border-color:rgba(232,255,71,.25);background:rgba(232,255,71,.06)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#e8ff47" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <div class="w-px flex-1 my-1" style="background:rgba(255,255,255,.06)"></div>
+              </div>
+              <div class="pb-5 pt-0.5 flex-1">
+                <div class="flex items-center gap-2 flex-wrap mb-1">
+                  <span style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:.88rem;color:#ededf5">🏛️ Sekretaris 1 — HIMIK</span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:rgba(232,255,71,.6);background:rgba(232,255,71,.08);border:1px solid rgba(232,255,71,.15);padding:2px 8px;border-radius:100px">2025–2026</span>
+                </div>
+                <p style="color:rgba(237,237,245,.38);font-size:.82rem;line-height:1.6;margin-bottom:10px">Himpunan Mahasiswa Ilmu Komputer, Fakultas Teknik dan Sains UM Bangka Belitung. SK Dekan No. 010/KEP/XIV/A/2025.</p>
+                <button onclick="openCert('himik-sk')" style="font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.06em;color:rgba(232,255,71,.7);background:rgba(232,255,71,.06);border:1px solid rgba(232,255,71,.18);padding:6px 14px;border-radius:100px;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;gap:6px" onmouseover="this.style.background='rgba(232,255,71,.12)';this.style.color='#e8ff47'" onmouseout="this.style.background='rgba(232,255,71,.06)';this.style.color='rgba(232,255,71,.7)'"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Lihat SK</button>
+              </div>
+            </div>
+            <div class="flex gap-4 group">
+              <div class="flex flex-col items-center">
+                <div class="w-7 h-7 rounded-full border flex items-center justify-center flex-shrink-0 transition-all group-hover:border-em" style="border-color:rgba(232,255,71,.25);background:rgba(232,255,71,.06)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#e8ff47" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <div class="w-px flex-1 my-1" style="background:rgba(255,255,255,.06)"></div>
+              </div>
+              <div class="pb-2 pt-0.5 flex-1">
+                <div class="flex items-center gap-2 flex-wrap mb-1">
+                  <span style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:.88rem;color:#ededf5">💻 Sekretaris I — UKM RTIK</span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:rgba(232,255,71,.6);background:rgba(232,255,71,.08);border:1px solid rgba(232,255,71,.15);padding:2px 8px;border-radius:100px">2025–2026</span>
+                </div>
+                <p style="color:rgba(237,237,245,.38);font-size:.82rem;line-height:1.6;margin-bottom:10px">Relawan Teknologi Informasi dan Komunikasi UM Bangka Belitung. SK Rektor No. 1802/KEP/I.2/F/2025.</p>
+                <button onclick="openCert('rtik-sk')" style="font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.06em;color:rgba(232,255,71,.7);background:rgba(232,255,71,.06);border:1px solid rgba(232,255,71,.18);padding:6px 14px;border-radius:100px;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;gap:6px" onmouseover="this.style.background='rgba(232,255,71,.12)';this.style.color='#e8ff47'" onmouseout="this.style.background='rgba(232,255,71,.06)';this.style.color='rgba(232,255,71,.7)'"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Lihat SK</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <!-- Tech chips -->
+        <div class="flex flex-wrap gap-2 mt-4 rl d4">
+          <span class="chip">Python</span><span class="chip">React</span><span class="chip">PyTorch</span><span class="chip">FastAPI</span><span class="chip">Flutter</span><span class="chip">Node.js</span><span class="chip">PostgreSQL</span><span class="chip">Docker</span>
+        </div>
+
+        <!-- Info cards -->
+        <div class="grid grid-cols-2 gap-2.5 mt-5 rl d4">
+          <div class="icard">
+            <div class="font-mono text-[.52rem] tracking-widest text-muted uppercase mb-1">Universitas</div>
+            <div class="text-[.8rem] font-medium leading-snug">UM Bangka Belitung</div>
+          </div>
+          <div class="icard">
+            <div class="font-mono text-[.52rem] tracking-widest text-muted uppercase mb-1">Jurusan</div>
+            <div class="text-[.8rem] font-medium" style="color:#e8ff47">Ilmu Komputer</div>
+          </div>
+          <div class="icard">
+            <div class="font-mono text-[.52rem] tracking-widest text-muted uppercase mb-1">Status</div>
+            <div class="text-[.8rem] font-medium flex items-center gap-2" style="color:#e8ff47">
+              <span class="bl w-1.5 h-1.5 rounded-full" style="background:#e8ff47"></span>Open to Work
+            </div>
+          </div>
+          <div class="icard">
+            <div class="font-mono text-[.52rem] tracking-widest text-muted uppercase mb-1">Prestasi</div>
+            <div class="text-[.8rem] font-medium">Juara 3 Hackathon Nasional 🏆<br/>Juara Umum I SMK 🥇<br/>Lolos Pendanaan PKM 🚀</div>
+          </div>
+        </div>
+
+      </div>
+      <!-- RIGHT — Portrait card, sticky so it follows scroll -->
+      <div class="hidden lg:flex flex-col rr d2" style="position:sticky;top:7rem;align-self:start">
+        <div id="portrait" class="relative rounded-2xl overflow-hidden border border-white/[.06] flex-1" style="min-height:820px;background:#07070f">
+
+          <!-- ✅ FOTO — ganti foto.jpg dengan nama file foto kamu -->
+          <!-- Kalau belum punya foto, hapus tag img ini dan animasi akan muncul -->
+          <img src="foto.jpg" alt="Hendri"
+               id="portrait-img"
+               style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;position:relative;z-index:2"
+               onerror="this.style.display='none';document.getElementById('cool-card').style.display='flex'"/>
+
+          <!-- ANIMATED CARD — muncul kalau foto tidak ada -->
+          <div id="cool-card" class="absolute inset-0 flex flex-col" style="display:none;z-index:2;height:100%">
+
+            <!-- Animated grid bg -->
+            <canvas id="card-canvas" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
+
+            <!-- Top bar — like a code editor -->
+            <div style="position:relative;z-index:3;padding:14px 16px;border-bottom:1px solid rgba(232,255,71,.08);display:flex;align-items:center;gap:8px;background:rgba(0,0,0,.3);backdrop-filter:blur(4px)">
+              <span style="width:10px;height:10px;border-radius:50%;background:#ff5f57;display:inline-block"></span>
+              <span style="width:10px;height:10px;border-radius:50%;background:#febc2e;display:inline-block"></span>
+              <span style="width:10px;height:10px;border-radius:50%;background:#28c840;display:inline-block"></span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:rgba(237,237,245,.25);margin-left:8px;letter-spacing:.08em">hendri.py</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:rgba(232,255,71,.4);margin-left:auto">● running</span>
+            </div>
+
+            <!-- Code typing area - flex:1 fills all space, overflow scroll -->
+            <div style="position:relative;z-index:3;flex:1;padding:16px 18px 130px 18px;font-family:'JetBrains Mono',monospace;font-size:.68rem;line-height:1.7;overflow-y:auto;min-height:0">
+              <div id="code-lines"></div>
+              <span id="code-cursor" style="display:inline-block;width:7px;height:14px;background:#e8ff47;vertical-align:middle;animation:blink .7s step-end infinite;margin-left:2px"></span>
+            </div>
+
+            <!-- Bottom info card — absolute, overlays bottom of code area -->
+            <div style="position:absolute;bottom:0;left:0;right:0;z-index:4;margin:0 12px 12px;background:rgba(6,6,12,.92);border:1px solid rgba(232,255,71,.18);border-radius:10px;padding:10px 13px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)">
+              <div style="display:flex;align-items:center;gap:10px">
+                <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,rgba(232,255,71,.2),rgba(232,255,71,.05));border:1.5px solid rgba(232,255,71,.3);display:flex;align-items:center;justify-content:center;font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:1rem;color:#e8ff47;flex-shrink:0">H</div>
+                <div>
+                  <div style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:.85rem;color:#ededf5">Hendri</div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:rgba(237,237,245,.35);letter-spacing:.06em">CS Student · AI Dev</div>
+                </div>
+                <div style="margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:3px">
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:.5rem;color:#28c840;display:flex;align-items:center;gap:4px">
+                    <span style="width:5px;height:5px;border-radius:50%;background:#28c840;animation:blink 1.5s infinite"></span>
+                    online
+                  </span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:.5rem;color:rgba(237,237,245,.25)">Indonesia 🇮🇩</span>
+                </div>
+              </div>
+              <!-- Skill mini bars -->
+              <div style="margin-top:10px;display:flex;flex-direction:column;gap:5px">
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:rgba(237,237,245,.4);width:52px;flex-shrink:0">Python</span>
+                  <div style="flex:1;height:2px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden"><div class="mini-bar" style="height:2px;background:#e8ff47;width:0;border-radius:2px;transition:width 1.5s 1s ease" data-w="94%"></div></div>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:.5rem;color:rgba(232,255,71,.5)">94%</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:rgba(237,237,245,.4);width:52px;flex-shrink:0">React</span>
+                  <div style="flex:1;height:2px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden"><div class="mini-bar" style="height:2px;background:#57c8ff;width:0;border-radius:2px;transition:width 1.5s 1.2s ease" data-w="90%"></div></div>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:.5rem;color:rgba(87,200,255,.5)">90%</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:rgba(237,237,245,.4);width:52px;flex-shrink:0">PyTorch</span>
+                  <div style="flex:1;height:2px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden"><div class="mini-bar" style="height:2px;background:#ff7c57;width:0;border-radius:2px;transition:width 1.5s 1.4s ease" data-w="92%"></div></div>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:.5rem;color:rgba(255,124,87,.5)">92%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Overlay effects on top of photo too -->
+          <div class="absolute inset-0 pointer-events-none" style="z-index:3;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.03) 3px,rgba(0,0,0,.03) 4px)"></div>
+          <div class="absolute bottom-0 left-0 right-0 pointer-events-none" style="z-index:3;height:80px;background:linear-gradient(to top,rgba(5,5,10,.5),transparent)"></div>
+
+          <div class="absolute top-4 left-4 font-mono text-[.55rem] tracking-wider px-2.5 py-1.5 rounded-md" style="z-index:4;color:rgba(232,255,71,.55);background:rgba(232,255,71,.06);border:1px solid rgba(232,255,71,.13)">{ cs_dev }</div>
+          <div class="absolute bottom-4 right-4 font-mono text-[.55rem] tracking-wider px-2.5 py-1.5 rounded-md" style="z-index:4;color:rgba(232,255,71,.55);background:rgba(232,255,71,.06);border:1px solid rgba(232,255,71,.13)">open_to_work ✦</div>
+          <div id="tilt-shine" class="absolute inset-0 pointer-events-none opacity-0 transition-opacity" style="z-index:3;background:radial-gradient(circle at 50% 50%,rgba(232,255,71,.07),transparent 70%)"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════ SERTIFIKAT ══════ -->
+<section id="sertifikat" class="z py-20 sm:py-28 px-5 sm:px-8 md:px-14 lg:px-20 xl:px-28" style="background:#07070f">
+  <div class="max-w-screen-xl mx-auto">
+
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-10">
+      <div>
+        <div class="sl mb-6 rl">02 — Sertifikat & Penghargaan</div>
+        <h2 class="rl d1" style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:clamp(1.9rem,5vw,3.8rem);line-height:1;letter-spacing:-.012em">
+          Pencapaian<br/><span style="color:#e8ff47">Lengkap.</span>
+        </h2>
+      </div>
+      <!-- Filter tabs -->
+      <div class="flex gap-2 flex-wrap rr d1">
+        <button onclick="filterCert('all')" id="filter-all" class="cert-filter on" style="font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:7px 16px;border-radius:100px;border:1px solid rgba(232,255,71,.3);background:rgba(232,255,71,.1);color:#e8ff47;cursor:pointer;transition:all .2s">Semua</button>
+        <button onclick="filterCert('Kuliah')" id="filter-Kuliah" class="cert-filter" style="font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:7px 16px;border-radius:100px;border:1px solid rgba(255,255,255,.1);background:transparent;color:rgba(237,237,245,.4);cursor:pointer;transition:all .2s">Kuliah</button>
+        <button onclick="filterCert('SMK')" id="filter-SMK" class="cert-filter" style="font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:7px 16px;border-radius:100px;border:1px solid rgba(255,255,255,.1);background:transparent;color:rgba(237,237,245,.4);cursor:pointer;transition:all .2s">SMK</button>
+      </div>
+    </div>
+
+    <!-- Stats bar -->
+    <div class="flex gap-6 mb-10 rv">
+      <div class="flex items-center gap-2">
+        <span style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:1.8rem;color:#e8ff47" id="cert-count-display">24</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:rgba(237,237,245,.3);text-transform:uppercase;letter-spacing:.1em">Total<br/>Sertifikat</span>
+      </div>
+      <div style="width:1px;background:rgba(255,255,255,.06)"></div>
+      <div class="flex items-center gap-2">
+        <span style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:1.8rem;color:#ededf5">12</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:rgba(237,237,245,.3);text-transform:uppercase;letter-spacing:.1em">Sertifikat<br/>SMK</span>
+      </div>
+      <div style="width:1px;background:rgba(255,255,255,.06)"></div>
+      <div class="flex items-center gap-2">
+        <span style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:1.8rem;color:#ededf5">12</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:rgba(237,237,245,.3);text-transform:uppercase;letter-spacing:.1em">Sertifikat<br/>Kuliah</span>
+      </div>
+    </div>
+
+    <!-- Certificate grid -->
+    <div id="cert-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+      <!-- Rendered by JS -->
+    </div>
+
+    <!-- Tombol Lihat Semua / Tutup -->
+    <div id="cert-more-wrap" class="flex justify-center mt-8">
+      <!-- Rendered by JS -->
+    </div>
+
+  </div>
+</section>
+
+<style>
+.cert-card{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .28s cubic-bezier(.16,1,.3,1)}
+.cert-card:hover{background:rgba(255,255,255,.05);border-color:rgba(232,255,71,.2);transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.4)}
+.cert-card.hidden-card{display:none}
+.cert-filter.on{border-color:rgba(232,255,71,.3)!important;background:rgba(232,255,71,.1)!important;color:#e8ff47!important}
+</style>
+
+<!-- ══ MARQUEE 2 ══ -->
+<div class="z overflow-hidden border-y py-3" style="border-color:rgba(232,255,71,.045)">
+  <div class="mqb flex whitespace-nowrap select-none">
+    <span style="font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.14em;color:rgba(232,255,71,.1);padding:0 1.5rem">PyTorch</span><span style="color:rgba(237,237,245,.06);padding:0 .5rem">·</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.14em;color:rgba(232,255,71,.1);padding:0 1.5rem">React</span><span style="color:rgba(237,237,245,.06);padding:0 .5rem">·</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.14em;color:rgba(232,255,71,.1);padding:0 1.5rem">TypeScript</span><span style="color:rgba(237,237,245,.06);padding:0 .5rem">·</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.14em;color:rgba(232,255,71,.1);padding:0 1.5rem">FastAPI</span><span style="color:rgba(237,237,245,.06);padding:0 .5rem">·</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.14em;color:rgba(232,255,71,.1);padding:0 1.5rem">PostgreSQL</span><span style="color:rgba(237,237,245,.06);padding:0 .5rem">·</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.14em;color:rgba(232,255,71,.1);padding:0 1.5rem">Docker</span><span style="color:rgba(237,237,245,.06);padding:0 .5rem">·</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.14em;color:rgba(232,255,71,.1);padding:0 1.5rem">TensorFlow</span><span style="color:rgba(237,237,245,.06);padding:0 .5rem">·</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.14em;color:rgba(232,255,71,.1);padding:0 1.5rem">AWS</span><span style="color:rgba(237,237,245,.06);padding:0 .5rem">·</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.14em;color:rgba(232,255,71,.1);padding:0 1.5rem">PyTorch</span><span style="color:rgba(237,237,245,.06);padding:0 .5rem">·</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.14em;color:rgba(232,255,71,.1);padding:0 1.5rem">React</span><span style="color:rgba(237,237,245,.06);padding:0 .5rem">·</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.14em;color:rgba(232,255,71,.1);padding:0 1.5rem">TypeScript</span><span style="color:rgba(237,237,245,.06);padding:0 .5rem">·</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.14em;color:rgba(232,255,71,.1);padding:0 1.5rem">FastAPI</span><span style="color:rgba(237,237,245,.06);padding:0 .5rem">·</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.14em;color:rgba(232,255,71,.1);padding:0 1.5rem">PostgreSQL</span><span style="color:rgba(237,237,245,.06);padding:0 .5rem">·</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.14em;color:rgba(232,255,71,.1);padding:0 1.5rem">Docker</span><span style="color:rgba(237,237,245,.06);padding:0 .5rem">·</span>
+  </div>
+</div>
+
+<!-- ══════ PROJECTS ══════ -->
+<section id="projects" class="z py-20 sm:py-28 md:py-36 px-5 sm:px-8 md:px-14 lg:px-20 xl:px-28">
+  <div class="max-w-screen-xl mx-auto">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10 md:mb-14">
+      <div>
+        <div class="sl mb-6 rl">02 — Selected Work</div>
+        <h2 class="rl d1" style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:clamp(1.9rem,6vw,4.2rem);line-height:1;letter-spacing:-.012em">Projects</h2>
+      </div>
+      <p class="text-white/30 text-sm leading-relaxed max-w-[200px] rr d1">Karya terpilih — AI model sampai full-stack.</p>
+    </div>
+    <div>
+      <div class="pr flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 py-5 sm:py-8 cursor-pointer rv" data-preview="linear-gradient(135deg,#0d1117,#1a1030)">
+        <span class="prn">01</span>
+        <div class="flex-1 min-w-0"><div class="flex flex-wrap gap-1.5 mb-2"><span class="chip">Python</span><span class="chip">Deep Learning</span><span class="chip">SVM</span><span class="chip">Flutter</span></div><div class="prtitle">Sistem Presensi Wajah dengan Continuous Learning</div><p class="text-white/30 text-sm mt-1.5 leading-relaxed">Absensi wajah lintas platform (Android, iOS, Windows). Face embedding diperbarui secara berkala dengan centroid update, tanpa training ulang dari nol.</p></div>
+        <div class="prarr self-start sm:self-auto">↗</div>
+      </div>
+      <div class="pr flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 py-5 sm:py-8 cursor-pointer rv d1" data-preview="linear-gradient(135deg,#0d1117,#102030)">
+        <span class="prn">02</span>
+        <div class="flex-1 min-w-0"><div class="flex flex-wrap gap-1.5 mb-2"><span class="chip">Python</span><span class="chip">PANNs CNN14</span><span class="chip">React</span><span class="chip">Flask</span></div><div class="prtitle">DambusVerse: Deteksi Irama Dambus</div><p class="text-white/30 text-sm mt-1.5 leading-relaxed">Website klasifikasi irama dambus berbasis deep learning (PANNs CNN14 + MLP) dari log-mel spectrogram. Finalis Hackathon INFEST 2026, Juara 3.</p></div>
+        <div class="prarr self-start sm:self-auto">↗</div>
+      </div>
+      <div class="pr flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 py-5 sm:py-8 cursor-pointer rv d2" data-preview="linear-gradient(135deg,#0a1a0a,#102010)">
+        <span class="prn">03</span>
+        <div class="flex-1 min-w-0"><div class="flex flex-wrap gap-1.5 mb-2"><span class="chip">IoT</span><span class="chip">Isolation Forest</span><span class="chip">DS-CNN</span><span class="chip">PostgreSQL</span><span class="chip">Flutter</span></div><div class="prtitle">RIMBAREST: Deteksi Audio dan Partikulat</div><p class="text-white/30 text-sm mt-1.5 leading-relaxed">Perangkat IoT (ESP32 + 4G LTE) dengan sensor PM, suhu, dan suara. Isolation Forest mendeteksi anomali, DS-CNN mengklasifikasi suara penebangan dan pertambangan ilegal. Lolos pendanaan PKM.</p></div>
+        <div class="prarr self-start sm:self-auto">↗</div>
+      </div>
+      <div class="pr flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 py-5 sm:py-8 cursor-pointer rv d3" data-preview="linear-gradient(135deg,#1a0a0a,#2a1010)">
+        <span class="prn">04</span>
+        <div class="flex-1 min-w-0"><div class="flex flex-wrap gap-1.5 mb-2"><span class="chip">TensorFlow</span><span class="chip">EfficientNet</span><span class="chip">Flask</span></div><div class="prtitle">Klasifikasi Tanaman Obat Herbal</div><p class="text-white/30 text-sm mt-1.5 leading-relaxed">Klasifikasi citra daun tanaman obat dengan EfficientNet (transfer learning dan fine-tuning). Augmentasi data untuk mengurangi overfitting, lalu model disajikan lewat aplikasi web Flask.</p></div>
+        <div class="prarr self-start sm:self-auto">↗</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ SKILLS ══════ -->
+<section id="skills" class="z py-20 sm:py-28 md:py-36 px-5 sm:px-8 md:px-14 lg:px-20 xl:px-28" style="background:#0a0a12">
+  <div class="max-w-screen-xl mx-auto">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10 md:mb-12">
+      <div>
+        <div class="sl mb-6 rl">03 — Capabilities</div>
+        <h2 class="rl d1" style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:clamp(1.9rem,6vw,4.2rem);line-height:1;letter-spacing:-.012em">Skills.</h2>
+      </div>
+      <p class="text-white/30 text-sm max-w-[200px] rr d1">Tool yang tepat untuk masalah yang tepat.</p>
+    </div>
+    <style>
+  .sk-card{position:relative;overflow:hidden;border-radius:20px;padding:24px 22px 22px;background:linear-gradient(160deg,rgba(255,255,255,.04),rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.07);transition:transform .45s cubic-bezier(.16,1,.3,1),border-color .45s,box-shadow .45s}
+  .sk-card::before{content:"";position:absolute;top:-60px;right:-60px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(232,255,71,.16),transparent 65%);opacity:.5;transition:opacity .45s,transform .45s;pointer-events:none}
+  .sk-card:hover{transform:translateY(-5px);border-color:rgba(232,255,71,.28);box-shadow:0 18px 50px -20px rgba(232,255,71,.25)}
+  .sk-card:hover::before{opacity:1;transform:scale(1.25)}
+  .sk-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:20px;position:relative}
+  .sk-idx{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.12em;color:rgba(232,255,71,.7)}
+  .sk-title{font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:1.15rem;color:#ededf5;margin-top:4px;line-height:1.2}
+  .sk-count{font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.06em;color:rgba(237,237,245,.45);border:1px solid rgba(255,255,255,.1);padding:4px 9px;border-radius:100px;white-space:nowrap}
+  .sk-list{display:flex;flex-wrap:wrap;gap:8px;position:relative}
+  .sk-tag{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:rgba(237,237,245,.72);padding:8px 13px;border-radius:12px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08);transition:all .3s cubic-bezier(.16,1,.3,1);cursor:default}
+  .sk-tag:hover{color:#05050a;background:#e8ff47;border-color:#e8ff47;transform:translateY(-2px);box-shadow:0 8px 20px -8px rgba(232,255,71,.6)}
+  @media (max-width:640px){.sk-card{padding:20px 18px}.sk-title{font-size:1.05rem}}
+</style>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-3.5" id="sk-grid">
+      <div class="sk-card rv">
+        <div class="sk-head">
+          <div>
+            <div class="sk-idx">01</div>
+            <div class="sk-title">AI / Machine Learning</div>
+          </div>
+          <span class="sk-count">6 tools</span>
+        </div>
+        <div class="sk-list"><span class="sk-tag">Python</span><span class="sk-tag">PyTorch</span><span class="sk-tag">TensorFlow</span><span class="sk-tag">Scikit-learn</span><span class="sk-tag">OpenCV</span><span class="sk-tag">HuggingFace</span></div>
+      </div>
+      <div class="sk-card rv">
+        <div class="sk-head">
+          <div>
+            <div class="sk-idx">02</div>
+            <div class="sk-title">Frontend</div>
+          </div>
+          <span class="sk-count">5 tools</span>
+        </div>
+        <div class="sk-list"><span class="sk-tag">React</span><span class="sk-tag">Next.js</span><span class="sk-tag">TypeScript</span><span class="sk-tag">Tailwind CSS</span><span class="sk-tag">Flutter</span></div>
+      </div>
+      <div class="sk-card rv">
+        <div class="sk-head">
+          <div>
+            <div class="sk-idx">03</div>
+            <div class="sk-title">Backend & Cloud</div>
+          </div>
+          <span class="sk-count">9 tools</span>
+        </div>
+        <div class="sk-list"><span class="sk-tag">FastAPI</span><span class="sk-tag">Node.js</span><span class="sk-tag">PostgreSQL</span><span class="sk-tag">Docker</span><span class="sk-tag">Redis</span><span class="sk-tag">MongoDB</span><span class="sk-tag">GraphQL</span><span class="sk-tag">Linux</span><span class="sk-tag">CI/CD</span></div>
+      </div>
+      <div class="sk-card rv">
+        <div class="sk-head">
+          <div>
+            <div class="sk-idx">04</div>
+            <div class="sk-title">IoT &amp; Embedded</div>
+          </div>
+          <span class="sk-count">TBD tools</span>
+        </div>
+        <div class="sk-list"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ CONTACT ══════ -->
+<section id="contact" class="z py-20 sm:py-28 md:py-36 px-5 sm:px-8 md:px-14 lg:px-20 xl:px-28">
+  <div class="max-w-screen-xl mx-auto">
+    <div class="sl mb-7 rl">04 — Contact</div>
+    <h2 class="rl d1 mb-3" style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:clamp(1.9rem,7vw,4.8rem);line-height:1;letter-spacing:-.012em">
+      Let's build<br/><span id="scramble-txt" style="color:#e8ff47">together.</span>
+    </h2>
+    <p class="text-white/34 text-sm mb-10 sm:mb-12 rv d2">Punya ide? Butuh developer? Sekadar ngobrol soal AI?</p>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-20">
+      <div class="space-y-3.5 rl d1">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div><label class="font-mono text-[.52rem] tracking-widest text-muted uppercase block mb-1.5">Nama</label><input type="text" class="cf" placeholder="John Doe"/></div>
+          <div><label class="font-mono text-[.52rem] tracking-widest text-muted uppercase block mb-1.5">Email</label><input type="email" class="cf" placeholder="john@mail.com"/></div>
+        </div>
+        <div><label class="font-mono text-[.52rem] tracking-widest text-muted uppercase block mb-1.5">Subject</label><input type="text" class="cf" placeholder="Kolaborasi · Tawaran · Hai!"/></div>
+        <div><label class="font-mono text-[.52rem] tracking-widest text-muted uppercase block mb-1.5">Pesan</label><textarea class="cf" rows="5" placeholder="Ceritakan proyekmu..."></textarea></div>
+        <button class="btem rpl-host w-full justify-center" style="padding:14px">Kirim Pesan →</button>
+      </div>
+      <div class="flex flex-col gap-2.5 rr d2">
+        <a href="mailto:hendri78gusiin@gmail.com" class="clink"><div class="flex items-center gap-3"><div class="ibox text-sm">✉</div><div><div class="font-mono text-[.52rem] tracking-widest text-muted uppercase">Email</div><div class="text-sm mt-0.5">hendri78gusiin@gmail.com</div></div></div><span class="clarr">↗</span></a>
+        <a href="#" class="clink"><div class="flex items-center gap-3"><div class="ibox font-mono text-[.55rem] font-bold text-white/36">GH</div><div><div class="font-mono text-[.52rem] tracking-widest text-muted uppercase">GitHub</div><div class="text-sm mt-0.5">hendri</div></div></div><span class="clarr">↗</span></a>
+        <a href="https://www.linkedin.com/in/hendri-%EC%B0%A8%EC%9D%80-%EC%9A%B0-8b32312b2" target="_blank" rel="noopener" class="clink"><div class="flex items-center gap-3"><div class="ibox font-mono text-[.55rem] font-bold text-white/36">LI</div><div><div class="font-mono text-[.52rem] tracking-widest text-muted uppercase">LinkedIn</div><div class="text-sm mt-0.5">hendri-차은우-8b32312b2</div></div></div><span class="clarr">↗</span></a>
+        <a href="#" class="clink"><div class="flex items-center gap-3"><div class="ibox text-sm text-white/36">𝕏</div><div><div class="font-mono text-[.52rem] tracking-widest text-muted uppercase">Twitter / X</div><div class="text-sm mt-0.5">hendri</div></div></div><span class="clarr">↗</span></a>
+        <div class="mt-1 rounded-xl p-4 flex items-center gap-3" style="border:1px solid rgba(232,255,71,.13);background:rgba(232,255,71,.03)">
+          <span class="bl w-2 h-2 rounded-full flex-shrink-0" style="background:#e8ff47"></span>
+          <div><div class="font-mono text-[.54rem] tracking-widest uppercase" style="color:rgba(232,255,71,.65)">Currently Available</div><div class="text-white/38 text-xs mt-0.5">Open to freelance, internship & full-time.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="z border-t py-6 px-5 sm:px-8 md:px-14 lg:px-20 xl:px-28" style="border-color:rgba(255,255,255,.05)">
+  <div class="max-w-screen-xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
+    <div style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:.95rem;letter-spacing:.06em;color:rgba(237,237,245,.2)">HEN·IO</div>
+    <div class="font-mono text-[.54rem] tracking-widest text-muted uppercase text-center">© 2025 — Built with obsession & caffeine</div>
+    <div class="flex items-center gap-2"><span class="bl w-1.5 h-1.5 rounded-full" style="background:#e8ff47"></span><span class="font-mono text-[.54rem] tracking-widest uppercase" style="color:rgba(232,255,71,.45)">Open to work</span></div>
+  </div>
+</footer>
+<!-- ══ VISITOR BADGE ══ -->
+<div id="vis-badge" class="z"><span class="vdot"></span><span id="vis-count">0</span> online sekarang</div>
+
+<!-- ══ LIKE FAB ══ -->
+<button id="like-fab" aria-label="Like">
+  <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+  <span class="lc" id="like-count">0</span>
+</button>
+
+
+
+<!-- ══ AI CHATBOT FAB ══ -->
+<button id="ai-fab" aria-label="Chat with AI">
+  <div class="ai-pulse"></div>
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
+    <path d="M12 2l2.4 6.4L21 12l-6.6 3.6L12 22l-2.4-6.4L3 12l6.6-3.6z"/>
+  </svg>
+</button>
+
+<!-- ══ AI CHAT PANEL ══ -->
+<div id="ai-panel">
+  <div class="ai-head">
+    <div class="ai-head-l">
+      <div class="ai-logo">
+        <svg viewBox="0 0 24 24"><path d="M12 2l2.4 6.4L21 12l-6.6 3.6L12 22l-2.4-6.4L3 12l6.6-3.6z"/></svg>
+      </div>
+      <div>
+        <div class="ai-title">AI Assistant</div>
+        <div class="ai-sub">Powered by Gemini · Tanya soal project</div>
+      </div>
+    </div>
+    <button class="ai-close" id="ai-close">✕</button>
+  </div>
+
+  <div class="ai-chips">
+    <button class="ai-chip" data-q="Ceritakan tentang Hendri">👤 Tentang Hendri</button>
+    <button class="ai-chip" data-q="Ceritakan project AI kamu">🤖 Project AI</button>
+    <button class="ai-chip" data-q="Apa skill utama kamu?">⚡ Skills</button>
+    <button class="ai-chip" data-q="Saya ingin menghubungi Hendri, berikan kontaknya">📞 Kontak</button>
+    <button class="ai-chip" data-q="Apakah Hendri open for hire atau freelance?">💼 Hire</button>
+  </div>
+
+  <div id="ai-msgs"></div>
+
+  <div class="ai-input-area">
+    <input id="ai-input" type="text" placeholder="Tanya tentang project saya..." maxlength="300"/>
+    <button id="ai-send">
+      <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- ══ COMMENT FAB ══ -->
+<button id="cmt-fab" aria-label="Komentar">
+  <div id="cmt-notif"></div>
+  <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><line x1="9" y1="10" x2="15" y2="10"/><line x1="9" y1="14" x2="13" y2="14"/></svg>
+  <span class="cfc" id="cmt-fab-count">0</span>
+</button>
+
+<!-- ══ COMMENT PANEL ══ -->
+<div id="cmt-panel">
+  <div class="cmph">
+    <div class="cmph-l">
+      <div class="cmph-ic">
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      </div>
+      <div>
+        <div class="cmph-t">Komentar</div>
+        <div class="cmph-s"><span id="cmt-panel-count">0</span> komentar</div>
+      </div>
+    </div>
+    <button class="cmpx" id="cmt-panel-close">✕</button>
+  </div>
+
+  <div id="cmt-list-inner">
+    <div id="cmt-empty-state">Belum ada komentar.<br/>Jadilah yang pertama! 👋</div>
+  </div>
+
+  <div class="cmp-input">
+
+    <!-- Reply indicator -->
+    <div id="reply-indicator" style="display:none;padding:6px 12px 2px;align-items:center;justify-content:space-between">
+      <span id="reply-indicator-text" style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:rgba(232,255,71,.7);display:flex;align-items:center;gap:5px">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#e8ff47" stroke-width="2.5" stroke-linecap="round"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 00-4-4H4"/></svg>
+        Membalas...
+      </span>
+      <button onclick="cancelReply()" style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:rgba(237,237,245,.35);background:transparent;border:none;cursor:pointer;padding:2px 6px">✕ Batal</button>
+    </div>
+
+    <!-- MODE REPLY: Login Google (hanya muncul saat mode balas) -->
+    <div id="cmt-login-prompt" style="display:none;padding:8px 12px;flex-direction:column;gap:6px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:rgba(237,237,245,.35);display:flex;align-items:center;gap:4px">
+        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgba(237,237,245,.35)" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Login Google diperlukan untuk membalas
+      </div>
+      <button id="cmt-google-btn" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:8px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;cursor:pointer;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif;font-size:.8rem;color:#ededf5;font-weight:500"
+        onmouseover="this.style.background='rgba(255,255,255,.1)';this.style.borderColor='rgba(255,255,255,.2)'"
+        onmouseout="this.style.background='rgba(255,255,255,.05)';this.style.borderColor='rgba(255,255,255,.1)'">
+        <svg width="15" height="15" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+        </svg>
+        Masuk dengan Google
+      </button>
+    </div>
+
+    <!-- MODE REPLY: Sudah login — tampil nama + tombol keluar -->
+    <div id="cmt-user-info" style="display:none;padding:6px 12px;align-items:center;justify-content:space-between;gap:8px">
+      <div style="display:flex;align-items:center;gap:7px;min-width:0">
+        <img id="cmt-user-photo" src="" style="width:22px;height:22px;border-radius:50%;border:1px solid rgba(232,255,71,.2);flex-shrink:0" onerror="this.style.display='none'"/>
+        <div style="min-width:0">
+          <div id="cmt-user-name" style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:.76rem;color:#ededf5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"></div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.48rem;color:rgba(66,133,244,.7);display:flex;align-items:center;gap:3px">
+            <svg width="7" height="7" viewBox="0 0 24 24" fill="#4285F4"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+            Terverifikasi Google
+          </div>
+        </div>
+      </div>
+      <button id="cmt-logout-btn" style="font-family:'JetBrains Mono',monospace;font-size:.5rem;color:rgba(237,237,245,.28);background:transparent;border:none;cursor:pointer;padding:2px;transition:color .2s;white-space:nowrap" onmouseover="this.style.color='#ededf5'" onmouseout="this.style.color='rgba(237,237,245,.28)'">Keluar</button>
+    </div>
+
+    <!-- Input form — selalu tampil untuk komentar biasa -->
+    <div class="name-wrap" style="position:relative" id="cmt-name-wrap">
+      <input id="cmt-name-in" type="text" placeholder="Nama kamu..." maxlength="30" style="padding-right:110px"/>
+      <div id="cmt-device-badge"></div>
+    </div>
+    <div class="cmp-row">
+      <textarea id="cmt-text-in" rows="2" placeholder="Tulis komentar..." maxlength="300"></textarea>
+      <button id="cmt-send">
+        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+<script src="js/script.js"></script>
+
+<!-- ══ CERTIFICATE MODAL ══ -->
+<div id="cert-modal" style="display:none;position:fixed;inset:0;z-index:2000;align-items:center;justify-content:center;padding:16px">
+  <!-- Backdrop -->
+  <div id="cert-backdrop" style="position:absolute;inset:0;background:rgba(5,5,10,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)" onclick="closeCert()"></div>
+  
+  <!-- Modal box -->
+  <div id="cert-box" style="position:relative;z-index:1;width:100%;max-width:680px;max-height:92vh;display:flex;flex-direction:column;background:rgba(10,10,18,.98);border:1px solid rgba(255,255,255,.09);border-radius:20px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.8);transform:scale(.92) translateY(20px);opacity:0;transition:all .4s cubic-bezier(.16,1,.3,1)">
+    
+    <!-- Header -->
+    <div style="padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between;background:rgba(232,255,71,.04)">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:32px;height:32px;border-radius:50%;background:rgba(232,255,71,.1);border:1px solid rgba(232,255,71,.25);display:flex;align-items:center;justify-content:center;font-size:.9rem" id="cert-modal-icon">🏆</div>
+        <div>
+          <div style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:.92rem;color:#ededf5" id="cert-modal-title">Sertifikat</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:rgba(237,237,245,.3);letter-spacing:.06em" id="cert-modal-sub">Klik gambar untuk zoom</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <a id="cert-modal-dl" href="#" download style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.06em;color:#e8ff47;background:rgba(232,255,71,.08);border:1px solid rgba(232,255,71,.2);padding:6px 12px;border-radius:100px;text-decoration:none;transition:all .2s" onmouseover="this.style.background='rgba(232,255,71,.16)'" onmouseout="this.style.background='rgba(232,255,71,.08)'">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#e8ff47" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+        <button onclick="closeCert()" style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.06);border:none;color:rgba(237,237,245,.5);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .2s" onmouseover="this.style.background='rgba(255,255,255,.12)'" onmouseout="this.style.background='rgba(255,255,255,.06)'">✕</button>
+      </div>
+    </div>
+
+    <!-- Certificate image area -->
+    <div id="cert-modal-body" style="padding:20px;min-height:0;flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;display:block;position:relative">
+      
+      <!-- Image viewer -->
+      <div id="cert-img-wrap" style="width:100%;position:relative;display:none">
+        <img id="cert-modal-img" src="" alt="Sertifikat" style="width:100%;border-radius:10px;border:1px solid rgba(255,255,255,.06);cursor:zoom-in;transition:transform .3s" onclick="toggleZoom(this)"/>
+        <!-- Zoom hint -->
+        <div style="position:absolute;bottom:10px;right:10px;font-family:'JetBrains Mono',monospace;font-size:.52rem;color:rgba(237,237,245,.4);background:rgba(5,5,10,.7);padding:4px 8px;border-radius:6px;pointer-events:none">Klik untuk zoom</div>
+      </div>
+
+      <!-- Placeholder — sertifikat belum diupload -->
+      <div id="cert-placeholder" style="text-align:center;padding:40px 20px">
+        <div style="width:64px;height:64px;border-radius:16px;background:rgba(232,255,71,.06);border:2px dashed rgba(232,255,71,.2);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 16px">📜</div>
+        <div style="font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:1rem;color:rgba(237,237,245,.5);margin-bottom:6px">Sertifikat Belum Diupload</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:rgba(237,237,245,.25);line-height:1.6">Ganti <code style="color:rgba(232,255,71,.5)">cert: 'nama-file.jpg'</code><br/>di data sertifikat pada script.js</div>
+      </div>
+
+    </div>
+
+    <!-- Footer info -->
+    <div style="padding:12px 20px;border-top:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:rgba(237,237,245,.25)" id="cert-modal-org">—</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:rgba(232,255,71,.45)" id="cert-modal-year">—</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
