@@ -1,7 +1,7 @@
 // Vercel Serverless Function: meneruskan chat ke Groq.
 // Key dibaca dari Environment Variables di Vercel (GROQ_KEY_1, GROQ_KEY_2, GROQ_MODEL).
 const KEYS = [process.env.GROQ_KEY_1, process.env.GROQ_KEY_2].filter(Boolean);
-const MODEL = process.env.GROQ_MODEL || 'llama-3.3-70b-versatile';
+const MODEL = process.env.GROQ_MODEL || 'openai/gpt-oss-120b';
 let keyIdx = 0;
 
 function setCors(res) {
